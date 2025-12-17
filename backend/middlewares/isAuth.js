@@ -7,7 +7,7 @@ const isAuth = async(req,res,next) =>{
             return res.status(401).json({message:"Unauthorized! No token provided"});
         }
 
-        let verifyToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        let verifyToken = jwt.verify(token, process.env.JWT_SECRET);
         if(!verifyToken){
             return res.status(401).json({message:"Unauthorized! Invalid token"});
         }

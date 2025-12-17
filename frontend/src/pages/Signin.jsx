@@ -2,14 +2,16 @@ import React, { useContext, useState } from 'react'
 import logo from '../assets/logo.svg'
 import { authDataContext } from '../context/AuthContext';
 import axios from 'axios';
+import {Navigate} from 'react-router-dom'
 
 function Signin() {
   let [show, setShow] = useState(false);
-    let {serverUrl} = useContext(authDataContext);
-    let [email, setEmail] = useState("");
-    let [password, setPassword] = useState("");
-    let [loading, setLoading] = useState(false);
-    let [err,setErr] = useState("");
+  let {userData,setUserData} = useContext(authDataContext);
+  let {serverUrl} = useContext(authDataContext);
+  let [email, setEmail] = useState("");
+  let [password, setPassword] = useState("");
+  let [loading, setLoading] = useState(false);
+  let [err,setErr] = useState("");
   
     const handleSignin = async (e) =>{
       e.preventDefault();
@@ -20,6 +22,8 @@ function Signin() {
           password
         },{withCredentials:true});
         console.log(res);
+        setUserData(res.data);
+        Navigate("/");
         setEmail("");
         setPassword("");
         setLoading(false);
