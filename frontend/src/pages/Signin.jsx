@@ -1,12 +1,13 @@
 import React, { useContext, useState } from 'react'
 import logo from '../assets/logo.svg'
 import { authDataContext } from '../context/AuthContext';
+import { userDataContext } from '../context/UserContext';
 import axios from 'axios';
 import {Navigate} from 'react-router-dom'
 
 function Signin() {
   let [show, setShow] = useState(false);
-  let {userData,setUserData} = useContext(authDataContext);
+  let {userData,setUserData} = useContext(userDataContext);
   let {serverUrl} = useContext(authDataContext);
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
