@@ -1,0 +1,125 @@
+import React from 'react'
+import linkedin from '../assets/linkedin.png'
+import { CiSearch } from "react-icons/ci";
+import { IoMdHome } from "react-icons/io";
+import { FaPeopleGroup } from "react-icons/fa6";
+import { IoIosNotifications } from "react-icons/io";
+import dp from '../assets/dp.png'
+import { userDataContext } from '../context/UserContext';
+import { authDataContext } from '../context/AuthContext';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
+function Navbar() {
+  let [activeSearch, setActiveSearch] = React.useState(false);
+  let [activeProfile, setActiveProfile] = React.useState(false);
+  let { userData, setUserData } = React.useContext(userDataContext);
+  let {serverUrl} = React.useContext(authDataContext);
+  let navigate = useNavigate();
+
+  const handleSignOut = () => {
+    try{
+      let res = axios.get(serverUrl + "/api/auth/signout", { withCredentials: true });
+      setUserData(null);
+      navigate("/signin");
+      
+      
+    } catch(err){
+      console.log("Error during logout:", err);
+      return res.status(500).json({message:"Logout failed"});
+    }
+  
+  }
+
+  return (
+    <div className="w-full h-[80px] bg-white shadow-md flex justify-between md:justify-around items-center px-[10px] relative">
+      <div className="flex justify-center items-center gap-[10px] cursor-pointer">
+        <img src={linkedin} alt="logo" className='w-[40px] h-[40px]' />
+        {!activeSearch && (
+          <div className="text-gray-700 text-[25px] lg:hidden" onClick={() => setActiveSearch(true)}>
+            <CiSearch />
+          </div>
+        )}
+        <form
+          className={`lg:flex items-center gap-[10px] lg:w-[350px] h-[40px]
+           rounded-md px-4 bg-[#f3f2ef]
+           focus-within:border-blue-700 ${!activeSearch ? "hidden" : "flex"}`}>
+          <div className="text-gray-700 text-[25px]" onClick={() => setActiveSearch(false)}>
+            <CiSearch />
+          </div>
+          <input type="text" placeholder='Search...' className='w-[80%] h-full bg-transparent outline-none' />
+        </form>
+      </div>
+
+      <div className="flex justify-center items-center gap-[20px] text-gray-500">
+
+        {/* Home */}
+        <div className="md:flex flex-col items-center cursor-pointer hover:text-black transition-colors duration-150 hidden">
+          <IoMdHome className="text-[28px]" />
+          <span className="text-[13px] font-semibold">Home</span>
+        </div>
+
+        {/* Network */}
+        <div className="md:flex flex-col items-center cursor-pointer hover:text-black transition-colors duration-150 hidden">
+          <FaPeopleGroup className="text-[28px]" />
+          <span className="text-[13px] font-semibold">Network</span>
+        </div>
+
+        {/* Notifications */}
+        <div className="flex flex-col items-center cursor-pointer hover:text-black transition-colors duration-150">
+          <IoIosNotifications className="text-[30px] md:text-[28px]" />
+          <span className="md:inline text-[13px] font-semibold hidden">Notifications</span>
+        </div>
+
+        {/* Profile */}
+        <div className="cursor-pointer" onClick={() => setActiveProfile(!activeProfile)}>
+          <img
+            src={dp}
+            alt="Profile Pic"
+            className="w-[60px] h-[60px] rounded-full border-2 border-transparent hover:border-blue-600 transition-all duration-150"
+          />
+        </div>
+
+        {activeProfile && (
+          <div className="h-[300px] w-[300px] absolute bg-white rounded-lg shadow-lg top-[87px] right-[240px] flex flex-col items-center justify-start gap-[15px] p-[15px]">
+            <div className="cursor-pointer">
+              <img
+                src={dp}
+                alt="Profile Pic"
+                className="w-[60px] h-[60px] rounded-full border-2 border-transparent hover:border-blue-600 transition-all duration-150"
+              />
+            </div>
+            <div>
+              <span className='text-black font-bold text-[20px]'>
+                {userData.firstName} {userData.lastName}
+              </span>
+            </div>
+            <div>
+              <form>
+                <button className='border border-blue-600 rounded-xl w-[200px] text-blue-600 hover:bg-blue-600 hover:text-white transition-all duration-150'>See Profile</button>
+              </form>
+            </div>
+            <div className='w-full h-[1px] bg-gray-300'></div>
+            <div className='flex justify-start items-center w-full gap-[10px] hover:text-black cursor-pointer transition-colors duration-150'>
+              <FaPeopleGroup className="text-[25px]" />
+              <span className="text-[20px] font-semibold">My Network</span>
+              </div>
+            <div>
+              <button
+                className='border border-red-600 rounded-xl w-[200px] text-red-600 hover:bg-red-600 hover:text-white transition-all duration-150'
+                onClick={() => {
+                  handleSignOut();
+                }}
+              >
+                Sign Out
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default Navbar;
+

@@ -1,10 +1,12 @@
 import React from 'react'
+import Navbar from '../components/Navbar.jsx'
 
 function Home() {
   return (
-    <div>
-      Home Page
-    </div>
+      <div className='bg-[#f3f2ef] w-full min-h-[100vh]'>
+        <Navbar />
+      </div>
+
   )
 }
 
