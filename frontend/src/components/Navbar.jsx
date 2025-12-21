@@ -32,7 +32,7 @@ function Navbar() {
   }
 
   return (
-    <div className="w-full h-[80px] bg-white shadow-md flex justify-between md:justify-around items-center px-[10px] relative">
+    <div className="fixed top-0 left-0 w-full h-[80px] bg-white shadow-md flex justify-between md:justify-around items-center px-[10px] z-50">
       <div className="flex justify-center items-center gap-[10px] cursor-pointer">
         <img src={linkedin} alt="logo" className='w-[40px] h-[40px]' />
         {!activeSearch && (
@@ -51,7 +51,7 @@ function Navbar() {
         </form>
       </div>
 
-      <div className="flex justify-center items-center gap-[20px] text-gray-500">
+      <div className="flex justify-center items-center gap-[20px] text-gray-500 relative">
 
         {/* Home */}
         <div className="md:flex flex-col items-center cursor-pointer hover:text-black transition-colors duration-150 hidden">
@@ -81,7 +81,7 @@ function Navbar() {
         </div>
 
         {activeProfile && (
-          <div className="h-[300px] w-[300px] absolute bg-white rounded-lg shadow-lg top-[87px] right-[240px] flex flex-col items-center justify-start gap-[15px] p-[15px]">
+          <div className="h-[300px] w-[300px] absolute bg-white rounded-lg shadow-lg top-[87px] flex flex-col items-center justify-start gap-[15px] p-[15px]">
             <div className="cursor-pointer">
               <img
                 src={dp}
